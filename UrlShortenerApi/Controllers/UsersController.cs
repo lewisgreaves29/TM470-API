@@ -58,8 +58,8 @@ namespace UrlShortenerApi.Controllers
             _dbContext.Users.Add(userDataModel);
             await _dbContext.SaveChangesAsync();
 
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.ID }, user);
+            UserView userViewModel = _mapper.Map<UserView>(userDataModel);
+            return CreatedAtAction(nameof(CreateUser), userViewModel);
         }
 
         // PUT /users/{id}

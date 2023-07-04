@@ -52,7 +52,9 @@ namespace UrlShortenerApi.Controllers
             FallBackUrls fallBackUrlDataModel = _mapper.Map<FallBackUrls>(fallBackUrl);
             _dbContext.FallBackUrls.Add(fallBackUrlDataModel);
             await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetFallBackUrl), new { id = fallBackUrl.ID }, fallBackUrl);
+
+            FallBackUrlsView fallbackUrlViewModel = _mapper.Map<FallBackUrlsView>(fallBackUrlDataModel);
+            return CreatedAtAction(nameof(CreateFallBackUrl), fallbackUrlViewModel);
         }
 
         // PUT /fallbackurls/{id}

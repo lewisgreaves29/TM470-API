@@ -152,7 +152,7 @@ namespace UrlShortenerApi.Controllers
 
         // POST /intelligent
         [HttpPost("/{accountId}/intelligent")]
-        public async Task<ActionResult<String>> CreateIntelligentLink(int accountId,String inputString)
+        public async Task<ActionResult<String>> CreateIntelligentLink(int accountId, [FromBody] string inputString)
         {
             var account = await _dbContext.Accounts.Include(a => a.Users)
                 .Include(a => a.FallBackUrls)

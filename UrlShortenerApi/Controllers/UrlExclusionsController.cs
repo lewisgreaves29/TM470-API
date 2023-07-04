@@ -49,7 +49,9 @@ namespace UrlShortenerApi.Controllers
             UrlExclusion urlExclusionDataModel = _mapper.Map<UrlExclusion>(urlExclusion);
             _dbContext.UrlExclusions.Add(urlExclusionDataModel);
             await _dbContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetUrlExclusion), new { id = urlExclusion.ID }, urlExclusion);
+
+            UrlExclusionView urlExclusionReturnModel = _mapper.Map<UrlExclusionView>(urlExclusionDataModel);
+            return CreatedAtAction(nameof(CreateUrlExclusion), urlExclusionReturnModel);
         }
 
         // PUT /urlexclusions/{id}
