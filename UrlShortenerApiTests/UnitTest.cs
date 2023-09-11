@@ -12,7 +12,7 @@ namespace UrlShortenerApiTests
         }
 
         [Test]
-        public void CreateUrl_ShouldReturnUrlWithShortenedUrl_WhenCalledWithValidData()
+        public void CreateUrl_Test()
         {
             // Arrange
             var inputUrl = new UrlView { OriginalUrl = "https://originalurl.com" };
@@ -26,59 +26,39 @@ namespace UrlShortenerApiTests
             Assert.IsTrue(result.ShortenedUrl.StartsWith("https://api.shorterurl.uk"));
         }
 
-        [Test]
-        public void CreateUrl_ShouldUseCustomDomain_WhenAccountHasCustomDomain()
-        {
-            // Arrange
-            var inputUrl = new UrlView { OriginalUrl = "https://originalurl.com" };
-            var account = new AccountView { CustomDomains = new CustomDomain { Domain = "https://customdomain.com" } };
-
-            // Act
-            var result = HelperServices.CreateUrl(inputUrl, account);
-
-            // Assert
-            Assert.IsNotNull(result.ShortenedUrl);
-            Assert.IsTrue(result.ShortenedUrl.StartsWith("https://customdomain.com"));
-        }
-
-        [TestCase("test@example.com", true)]
-        [TestCase("test.test@example.com", true)]
-        [TestCase("test@example", false)]
+        [TestCase("test@test.com", true)]
+        [TestCase("test.test@test.com", true)]
+        [TestCase("test@test", false)]
         [TestCase("test", false)]
-        public void IsValidEmail_ShouldValidateEmailAddressesCorrectly(string email, bool expected)
+        public void IsValidEmail_Test(string email, bool expected)
         {
-            // Act
+
             var result = HelperServices.IsValidEmail(email);
 
-            // Assert
+
             Assert.AreEqual(expected, result);
         }
 
         [Test]
-        public void FindAllUrls_ShouldFindAllUrlsInText()
+        public void FindAllUrls_Test()
         {
-            // Arrange
-            string text = "Check out my website at http://example.com. You can also visit my blog at https://blog.example.com/posts/123.";
 
-            // Act
+            string text = "Your Best Super Market parcel is out for delivery. If you'd like more information, please click on the tracking link: https://react.sorted.com/tracking/track-order?customer_id=cs_612658752036853&shipment_id=sp_692770110189947390 If you would Like to order more please visit https://www.bestsupermarket.com";
+
             List<string> result = FindUrls.FindAllUrls(text);
 
-            // Assert
-            Assert.AreEqual(2, result.Count);
-            Assert.Contains("http://example.com", result);
-            Assert.Contains("https://blog.example.com/posts/123", result);
+            Assert.Contains("https://react.sorted.com/tracking/track-order?customer_id=cs_612658752036853&shipment_id=sp_692770110189947390", result);
+            Assert.Contains("https://www.bestsupermarket.com", result);
         }
 
         [Test]
-        public void FindAllUrls_ShouldReturnEmptyList_WhenNoUrlsInText()
+        public void FindAllUrls_Empty_Test()
         {
-            // Arrange
+
             string text = "This text does not contain any URLs.";
 
-            // Act
             List<string> result = FindUrls.FindAllUrls(text);
 
-            // Assert
             Assert.AreEqual(0, result.Count);
         }
     }

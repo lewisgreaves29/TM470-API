@@ -44,6 +44,7 @@ namespace UrlShortenerApi.Controllers
                 .Include(a => a.FallBackUrls)
                 .Include(a => a.UrlExclusions)
                 .Include(a => a.CustomDomains)
+                .Include(a => a.Urls)
                 .FirstOrDefaultAsync(a => a.ID == id);
 
             if (account == null)
